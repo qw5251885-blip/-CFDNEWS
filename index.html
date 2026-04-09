@@ -18,19 +18,19 @@
 }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg3); color: var(--text); min-height: 100vh; }
 .page { max-width: 720px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
-.badge { display: inline-flex; align-items: center; gap: 6px; background: var(--info-bg); color: var(--info); font-size: 11px; font-weight: 500; padding: 3px 12px; border-radius: 999px; margin-bottom: 1rem; border: 0.5px solid rgba(24,95,165,0.2); }
+.badge { display: inline-flex; align-items: center; gap: 6px; background: var(--success-bg); color: var(--success); font-size: 11px; font-weight: 500; padding: 3px 12px; border-radius: 999px; margin-bottom: 1rem; border: 0.5px solid rgba(59,109,17,0.2); }
 .card { background: var(--bg); border-radius: var(--radius-lg); border: 0.5px solid var(--border); padding: 1.25rem; margin-bottom: 1rem; }
 .api-section { margin-bottom: 1rem; }
 .api-toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; color: var(--text2); user-select: none; }
-.api-body { margin-top: 10px; padding: 12px 14px; background: var(--info-bg); border-radius: var(--radius); border: 0.5px solid rgba(24,95,165,0.2); }
-.api-body h3 { font-size: 12px; font-weight: 500; color: var(--info); margin-bottom: 8px; }
+.api-body { margin-top: 10px; padding: 12px 14px; background: var(--success-bg); border-radius: var(--radius); border: 0.5px solid rgba(59,109,17,0.2); }
+.api-body h3 { font-size: 12px; font-weight: 500; color: var(--success); margin-bottom: 8px; }
 .api-row { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
 .api-inp { flex: 1; min-width: 160px; padding: 8px 12px; border: 0.5px solid var(--border2); border-radius: var(--radius); font-size: 13px; background: var(--bg); color: var(--text); font-family: monospace; }
 .api-inp:focus { outline: none; border-color: var(--info); }
-.btn-save { padding: 8px 14px; background: var(--info); color: #fff; border: none; border-radius: var(--radius); font-size: 13px; font-weight: 500; cursor: pointer; }
-.btn-save:hover { background: #0c447c; }
-.btn-test { padding: 8px 14px; background: var(--bg); color: var(--info); border: 0.5px solid var(--info); border-radius: var(--radius); font-size: 13px; cursor: pointer; }
-.btn-test:hover { background: var(--info-bg); }
+.btn-save { padding: 8px 14px; background: var(--success); color: #fff; border: none; border-radius: var(--radius); font-size: 13px; font-weight: 500; cursor: pointer; }
+.btn-save:hover { opacity: 0.88; }
+.btn-test { padding: 8px 14px; background: var(--bg); color: var(--success); border: 0.5px solid var(--success); border-radius: var(--radius); font-size: 13px; cursor: pointer; }
+.btn-test:hover { background: var(--success-bg); }
 .api-hint { font-size: 11px; color: var(--text3); margin-top: 8px; line-height: 1.8; }
 .api-hint a { color: var(--info); }
 .test-box { margin-top: 8px; padding: 8px 10px; border-radius: var(--radius); font-size: 12px; display: none; white-space: pre-line; line-height: 1.6; }
@@ -141,7 +141,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
       <div class="api-body" id="api-body" style="display:none">
         <h3>輸入 Groq API Key（完全免費）</h3>
         <div class="api-row">
-          <input class="api-inp" id="api-inp" type="password" placeholder="AIza..." />
+          <input class="api-inp" id="api-inp" type="password" placeholder="gsk_..." />
           <button class="btn-save" onclick="saveKey()">儲存</button>
           <button class="btn-test" onclick="runTest()">測試連線</button>
         </div>
@@ -186,7 +186,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
         </div>
       </div>
       <div class="cat-block">
-        <div class="cat-header"><div class="cat-dot" style="background:#ba7517"></div><span class="cat-name">消防 / 災害新聞</span><span class="cat-desc">Groq AI 判斷關聯性</span></div>
+        <div class="cat-header"><div class="cat-dot" style="background:#ba7517"></div><span class="cat-name">消防 / 災害新聞</span><span class="cat-desc">Groq AI 直接搜尋</span></div>
         <div class="chips-row">
           <span class="chip c2 on" data-kw="新竹市火災" data-cat="2" onclick="toggleChip(this)">新竹市火災</span>
           <span class="chip c2 on" data-kw="新竹市火警" data-cat="2" onclick="toggleChip(this)">新竹市火警</span>
@@ -230,7 +230,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 
     <div class="divider"></div>
     <div id="err-box" class="err" style="display:none"></div>
-    <div class="loading" id="loading"><span class="spinner"></span>正在搜尋新聞...<div class="loading-step" id="loading-step"></div></div>
+    <div class="loading" id="loading"><span class="spinner"></span>Groq AI 正在搜尋新聞...<div class="loading-step" id="loading-step"></div></div>
 
     <div id="results-wrap" style="display:none">
       <div class="status-bar">
@@ -245,7 +245,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
         <button class="filter-btn" data-f="1" onclick="filterNews(this)" style="color:#a32d2d">● 消防局</button>
         <button class="filter-btn" data-f="2" onclick="filterNews(this)" style="color:#854f0b">● 災害新聞</button>
         <button class="filter-btn" data-f="3" onclick="filterNews(this)" style="color:#185fa5">● 新竹市（相關）</button>
-        <button class="filter-btn" data-f="related" onclick="filterNews(this)" style="color:#a32d2d">⚑ 與消防局相關</button>
       </div>
       <div id="news-list"></div>
       <div class="fmt-section" id="fmt-wrap" style="display:none">
@@ -299,12 +298,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 let curTime=1,curTab='general',curLayout='official',curSentiment='正面';
 let newsData=[],curFilter='all',apiKey='';
 
-const GROQ_URL="https://api.groq.com/openai/v1/chat/completions";
-const PROXIES=[
-  u=>`https://api.allorigins.win/get?url=${encodeURIComponent(u)}`,
-  u=>`https://corsproxy.io/?${encodeURIComponent(u)}`,
-  u=>`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`
-];
+const GROQ_URL='https://api.groq.com/openai/v1/chat/completions';
+const GROQ_MODEL='llama-3.3-70b-versatile';
 
 window.addEventListener('DOMContentLoaded',()=>{
   const s=localStorage.getItem('hcfd_groq_key');
@@ -328,36 +323,41 @@ function saveKey(){
   const v=document.getElementById('api-inp').value.trim();
   if(!v.startsWith('gsk_')){alert('API Key 格式不正確，應以 gsk_ 開頭');return;}
   apiKey=v;localStorage.setItem('hcfd_groq_key',v);setApiStatus(true);
-
 }
+
+async function groqChat(messages,maxTokens){
+  if(!apiKey)throw new Error('請先設定 API Key');
+  const resp=await fetch(GROQ_URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
+    body:JSON.stringify({model:GROQ_MODEL,messages,max_tokens:maxTokens||1000,temperature:0.1})
+  });
+  if(!resp.ok){const e=await resp.json().catch(()=>({}));throw new Error(e.error?.message||'HTTP '+resp.status);}
+  const data=await resp.json();
+  return data.choices?.[0]?.message?.content||'';
+}
+
 async function runTest(){
   const v=document.getElementById('api-inp').value.trim();
   if(!v){showTB(null,'請先輸入 API Key');return;}
   showTB(null,'測試中，請稍候...');
   try{
-    const r=await fetch(GROQ_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${v}`},body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'user',content:'請回答「OK」兩個字'}],max_tokens:10})});
-    if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error?.message||'HTTP '+r.status);}
-    const d=await r.json();
+    const resp=await fetch(GROQ_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${v}`},body:JSON.stringify({model:GROQ_MODEL,messages:[{role:'user',content:'請回答「OK」兩個字'}],max_tokens:10})});
+    if(!resp.ok){const e=await resp.json().catch(()=>({}));throw new Error(e.error?.message||'HTTP '+resp.status);}
+    const d=await resp.json();
     const reply=(d.choices?.[0]?.message?.content||'').trim();
-    const rssUrl='https://news.google.com/rss/search?q=%E6%96%B0%E7%AB%B9%E5%B8%82%E6%B6%88%E9%98%B2%E5%B1%80&hl=zh-TW&gl=TW&ceid=TW:zh-Hant';
-    let proxyOk=false,proxyNum=-1;
-    for(let i=0;i<PROXIES.length;i++){
-      try{const pr=await fetch(PROXIES[i](rssUrl),{signal:AbortSignal.timeout(7000)});if(pr.ok){const pd=await pr.json();const xml=pd.contents||(typeof pd==='string'?pd:null);if(xml&&xml.includes('<item>')){proxyOk=true;proxyNum=i+1;break;}}}catch{}
-    }
-    if(proxyOk){
-      showTB(true,`✓ Groq AI 正常（Llama 3.3 70B，回應：${reply}）\n✓ 新聞抓取正常（Proxy ${proxyNum} 可用）`);
-      if(v.startsWith('gsk_')){apiKey=v;localStorage.setItem('hcfd_groq_key',v);setApiStatus(true);}
-    }else{
-      showTB(false,`✓ Groq AI 正常\n✗ 新聞 RSS 抓取失敗：所有 Proxy 皆無法連線\n→ 請確認網路是否限制外部連線，或稍後再試`);
-    }
-  }catch(e){showTB(false,'✗ Groq 連線失敗：'+e.message+'\n→ 請確認 API Key 正確（應以 gsk_ 開頭），可至 console.groq.com 重新建立');}
+    showTB(true,`✓ Groq AI 連線正常（Llama 3.3 70B，回應：${reply}）\n✓ 可以開始搜尋新聞`);
+    if(v.startsWith('gsk_')){apiKey=v;localStorage.setItem('hcfd_groq_key',v);setApiStatus(true);}
+  }catch(e){showTB(false,'✗ Groq 連線失敗：'+e.message+'\n→ 請確認 API Key 正確（應以 gsk_ 開頭）');}
 }
+
 function showTB(ok,msg){
   const el=document.getElementById('test-box');
   el.style.display='block';
   el.className='test-box '+(ok===true?'ok':ok===false?'fail':'pending');
   el.textContent=msg;
 }
+
 function switchTab(tab,el){
   curTab=tab;
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -384,105 +384,85 @@ function setLoading(v,step){
 function showErr(msg){const el=document.getElementById('err-box');el.textContent=msg;el.style.display='block';}
 function hideErr(){document.getElementById('err-box').style.display='none';}
 
-async function fetchRssXml(rssUrl){
-  for(let i=0;i<PROXIES.length;i++){
-    try{
-      const resp=await fetch(PROXIES[i](rssUrl),{signal:AbortSignal.timeout(8000)});
-      if(!resp.ok)continue;
-      const data=await resp.json();
-      const xml=data.contents||(typeof data==='string'?data:null);
-      if(xml&&xml.includes('<item>'))return xml;
-    }catch(e){console.warn('Proxy'+i+' fail:',e.message);}
-  }
-  return null;
-}
-
-async function fetchRss(kw,cat,isOfficial){
-  const q=encodeURIComponent(kw);
-  const xml=await fetchRssXml(`https://news.google.com/rss/search?q=${q}&hl=zh-TW&gl=TW&ceid=TW:zh-Hant`);
-  if(!xml)return[];
-  const doc=new DOMParser().parseFromString(xml,'text/xml');
-  const cutoff=new Date(Date.now()-curTime*3600000);
-  const items=[];
-  doc.querySelectorAll('item').forEach(item=>{
-    const rawTitle=item.querySelector('title')?.textContent||'';
-    const title=rawTitle.replace(/\s*-\s*[^-\u4e00-\u9fff]{1,30}$/,'').trim();
-    const url=item.querySelector('link')?.textContent||'';
-    const pubDate=item.querySelector('pubDate')?.textContent||'';
-    const source=item.querySelector('source')?.textContent||rawTitle.match(/-\s*([^-]+)$/)?.[1]?.trim()||'媒體';
-    const desc=(item.querySelector('description')?.textContent||'').replace(/<[^>]+>/g,'').trim().slice(0,100);
-    const pd=pubDate?new Date(pubDate):null;
-    if(pd&&pd<cutoff)return;
-    if(!title||title.length<4)return;
-    const diff=pd?(Date.now()-pd.getTime())/60000:null;
-    const timeStr=diff===null?'':diff<60?`${Math.round(diff)}分鐘前`:diff<1440?`${Math.round(diff/60)}小時前`:`${Math.round(diff/1440)}天前`;
-    items.push({title,url,source:source.slice(0,20),time:timeStr,pubDateObj:pd,snippet:desc,category:cat,isRelatedToFireDept:cat!==3,isOfficial:isOfficial||false,aiJudged:false,aiReason:''});
-  });
-  return items;
-}
-
-function dedup(items){
-  const seen=new Set();
-  return items.filter(n=>{const k=n.title.replace(/\s/g,'').slice(0,14);if(seen.has(k))return false;seen.add(k);return true;});
-}
-
-async function geminiJudge(articles){
-  if(!apiKey||!articles.length)return articles;
-  const list=articles.map((a,i)=>`${i+1}. ${a.title} ${a.snippet||''}`).join('\n');
-  const prompt=`以下是搜尋「新竹市」關鍵字的新聞列表，請逐一判斷每則是否與新竹市消防局業務有關。\n消防局業務：火災、火警、爆炸、救援、119、化學災害、地震、風災、颱風、淹水、消防設備、消防安全、防火、救護、搜救。\n新聞：\n${list}\n只回傳JSON陣列，不加任何說明：\n[{"index":1,"related":true,"reason":"一句話原因"}]`;
+function parseNews(raw){
   try{
-    const resp=await fetch(GROQ_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'user',content:prompt}],max_tokens:800,temperature:0.1})});
-    if(!resp.ok)return articles;
-    const data=await resp.json();
-    const raw=data.choices?.[0]?.message?.content||'';
     const clean=raw.replace(/```json|```/g,'').trim();
     const s=clean.indexOf('['),e=clean.lastIndexOf(']');
-    if(s===-1)return articles;
-    const results=JSON.parse(clean.slice(s,e+1));
-    results.forEach(r=>{const a=articles[r.index-1];if(a){a.isRelatedToFireDept=!!r.related;a.aiReason=r.reason||'';a.aiJudged=true;}});
-  }catch(e){console.warn('Gemini judge failed',e);}
-  return articles;
+    if(s===-1)return[];
+    return JSON.parse(clean.slice(s,e+1));
+  }catch{return[];}
+}
+
+function getTodayRange(){
+  const now=new Date();
+  const cutoff=new Date(now.getTime()-curTime*3600000);
+  return `${cutoff.getFullYear()}年${cutoff.getMonth()+1}月${cutoff.getDate()}日${cutoff.getHours()}時 至今（${new Date().toLocaleString('zh-TW',{hour12:false})}）`;
 }
 
 async function doSearch(){
   const cats=getCats();
-  if(![...cats[1],...cats[2],...cats[3]].length){showErr('請至少選擇一個關鍵字');return;}
-  hideErr();setLoading(true,'步驟 1/2：從 Google 新聞抓取資料...');
+  const allKws=[...cats[1],...cats[2],...cats[3]];
+  if(!allKws.length){showErr('請至少選擇一個關鍵字');return;}
+  if(!apiKey){showErr('請先設定 Groq API Key');return;}
+  hideErr();
+  setLoading(true,'Groq AI 正在搜尋新竹市消防局相關新聞...');
   document.getElementById('results-wrap').style.display='none';
   document.getElementById('empty').style.display='none';
+
+  const timeLabel={1:'1小時',3:'3小時',6:'6小時',24:'24小時'}[curTime];
+  const timeRange=getTodayRange();
+
+  const prompt=`你是新竹市消防局的新聞監測助理。請根據你的知識，列出過去${timeLabel}內（${timeRange}）台灣媒體報導的以下相關新聞。
+
+搜尋類別與關鍵字：
+類別1（新竹市消防局直接相關）：${cats[1].join('、')||'無'}
+類別2（消防/災害新聞）：${cats[2].join('、')||'無'}
+類別3（新竹市廣泛新聞，需判斷與消防局關聯）：${cats[3].join('、')||'無'}
+
+對於類別3，請判斷每則是否與消防局業務有關（火災、救援、119、災害、消防安全等）。
+
+請盡量列出所有你知道的相關新聞。若無相關新聞則回傳空陣列。
+
+只回傳JSON陣列，不加任何說明或markdown：
+[{"title":"新聞標題","url":"新聞連結（若不確定填空字串）","source":"媒體來源（如 聯合新聞網、自由時報、ETtoday、中央社、三立、TVBS 等）","time":"發布時間（如 3小時前、今日14:30）","snippet":"新聞摘要50字以內","category":1或2或3,"isRelatedToFireDept":true或false,"isOfficial":false}]`;
+
   try{
-    const promises=[];
-    cats[1].forEach(kw=>promises.push(fetchRss(kw,1,false)));
-    cats[2].forEach(kw=>promises.push(fetchRss(kw,2,false)));
-    cats[3].forEach(kw=>promises.push(fetchRss(kw,3,false)));
-    const settled=await Promise.allSettled(promises);
-    let items=[];
-    settled.forEach(r=>{if(r.status==='fulfilled')items=items.concat(r.value);});
-    if(!items.length){showErr('無法抓取到新聞。\n請開啟「API Key 設定」→ 按「測試連線」查看原因。\n可能是：\n1) 網路限制外部連線（公務網路）\n2) 目前無相關新聞\n3) Proxy 服務暫時不可用，請稍後再試');setLoading(false);return;}
-    items=dedup(items);
-    items.sort((a,b)=>(b.pubDateObj||0)-(a.pubDateObj||0));
-    const cat3=items.filter(n=>n.category==3);
-    if(cat3.length&&apiKey){
-      setLoading(true,`步驟 2/2：Gemini AI 正在判斷 ${cat3.length} 則新竹市新聞的相關性...`);
-      const judged=await geminiJudge([...cat3]);
-      judged.forEach(j=>{const o=items.find(n=>n.title===j.title&&n.category==3);if(o){o.isRelatedToFireDept=j.isRelatedToFireDept;o.aiReason=j.aiReason;o.aiJudged=j.aiJudged;}});
-    }
-    newsData=items;renderNews(newsData);
-  }catch(e){showErr('搜尋失敗：'+e.message);}
-  finally{setLoading(false);}
+    const raw=await groqChat([{role:'user',content:prompt}],1500);
+    const items=parseNews(raw);
+    newsData=items;
+    renderNews(newsData);
+  }catch(e){
+    showErr('搜尋失敗：'+e.message);
+  }finally{
+    setLoading(false);
+  }
 }
 
 async function doOfficialSearch(){
-  hideErr();setLoading(true,'搜尋新竹市消防局新聞稿...');
+  if(!apiKey){showErr('請先設定 Groq API Key');return;}
+  hideErr();
+  setLoading(true,'搜尋新竹市消防局官方新聞稿...');
   document.getElementById('results-wrap').style.display='none';
   document.getElementById('empty').style.display='none';
   const extra=document.getElementById('official-extra').value.trim();
+  const timeLabel={1:'1小時',3:'3小時',6:'6小時',24:'24小時'}[curTime];
+
+  const prompt=`請列出過去${timeLabel}內，新竹市消防局官方發出的新聞稿${extra?'（關鍵字含：'+extra+'）':''}。包含官網發布、政府新聞稿、媒體引用官方聲明等。
+
+只回傳JSON陣列，不加說明：
+[{"title":"標題","url":"連結或空字串","source":"來源","time":"時間","snippet":"摘要50字","category":1,"isRelatedToFireDept":true,"isOfficial":true}]
+若無則回傳[]。`;
+
   try{
-    const items=await fetchRss('新竹市消防局 新聞稿'+(extra?' '+extra:''),1,true);
-    if(!items.length){showErr('無法抓取新聞，請按「測試連線」確認狀態。');setLoading(false);return;}
-    newsData=items;renderNews(newsData);
-  }catch(e){showErr('搜尋失敗：'+e.message);}
-  finally{setLoading(false);}
+    const raw=await groqChat([{role:'user',content:prompt}],1000);
+    const items=parseNews(raw);
+    newsData=items;
+    renderNews(newsData);
+  }catch(e){
+    showErr('搜尋失敗：'+e.message);
+  }finally{
+    setLoading(false);
+  }
 }
 
 const catLabel={1:'消防局',2:'災害新聞',3:'新竹市'};
@@ -493,8 +473,7 @@ function renderNews(items,filter){
   list.innerHTML='';
   const f=filter||curFilter;
   let shown=items;
-  if(f==='related')shown=items.filter(n=>n.isRelatedToFireDept||n.category==1);
-  else if(f!=='all')shown=items.filter(n=>String(n.category)===String(f));
+  if(f!=='all')shown=items.filter(n=>String(n.category)===String(f));
   if(!items.length){document.getElementById('empty').style.display='block';return;}
   const tl={1:'1小時',3:'3小時',6:'6小時',24:'24小時'}[curTime];
   document.getElementById('count-label').textContent=`共 ${shown.length} 則（總計 ${items.length} 則）· ${tl}內`;
@@ -504,17 +483,17 @@ function renderNews(items,filter){
     const isRel=n.category==3&&n.isRelatedToFireDept;
     const card=document.createElement('div');
     card.className='news-card'+(isRel?' related':'');
+    const urlHtml=n.url?`<a href="${n.url}" target="_blank" rel="noopener">${n.title}</a>`:n.title;
     card.innerHTML=`
-      <div class="news-title-row"><span class="news-num">${num++}</span><div class="news-title"><a href="${n.url||'#'}" target="_blank" rel="noopener">${n.title}</a></div></div>
+      <div class="news-title-row"><span class="news-num">${num++}</span><div class="news-title">${urlHtml}</div></div>
       <div class="news-meta">
         <span class="tag ${catTagClass[n.category]}">${catLabel[n.category]}</span>
-        <span class="tag tag-src">${n.source}</span>
+        <span class="tag tag-src">${n.source||''}</span>
         ${n.isOfficial?'<span class="tag tag-official">官方</span>':''}
         ${isRel?'<span class="tag tag-related">與消防局相關</span>':''}
-        <span class="tag-time">${n.time}</span>
+        <span class="tag-time">${n.time||''}</span>
       </div>
       ${n.snippet?`<div class="news-snippet">${n.snippet}</div>`:''}
-      ${isRel&&n.aiJudged&&n.aiReason?`<div class="related-note">⚑ Groq AI：${n.aiReason}</div>`:''}
     `;
     list.appendChild(card);
   });
@@ -529,7 +508,6 @@ function selLayout(el){document.querySelectorAll('.modal-opt').forEach(o=>o.clas
 
 function getDisplayData(){
   if(curFilter==='all')return newsData;
-  if(curFilter==='related')return newsData.filter(n=>n.isRelatedToFireDept||n.category==1);
   return newsData.filter(n=>String(n.category)===curFilter);
 }
 
@@ -544,18 +522,15 @@ function applyLayout(){
   let out='';
   if(curLayout==='official'){
     out=`報告局長:\n新竹市消防局於今(${day}日)${eventDesc}，經媒體露出報導${curSentiment}輿情，網路即時共計${data.length}則:\n`;
-    data.forEach((n,i)=>{out+=`${i+1}.${n.title}(${n.source})\n${n.url||''}\n`;});
+    data.forEach((n,i)=>{out+=`${i+1}.${n.title}(${n.source||'媒體'})\n${n.url||''}\n`;});
   }else if(curLayout==='brief'){
     const t=now.toLocaleTimeString('zh-TW',{hour12:false,hour:'2-digit',minute:'2-digit'});
     out=`⚡ 消防新聞快報 ${t}（${tl}內）\n\n`;
-    data.forEach((n,i)=>{out+=`${i+1}. ${n.title}（${n.source}）\n`;});
+    data.forEach((n,i)=>{out+=`${i+1}. ${n.title}（${n.source||''}）\n`;});
     out+=`\n共 ${data.length} 則`;
   }else{
     out=`【新竹市消防局 新聞監測】\n時間：${timeStr}（${tl}內）\n${'─'.repeat(28)}\n`;
-    data.forEach((n,i)=>{
-      out+=`\n${i+1}. ${n.title}\n   來源：${n.source}　${n.time}\n   ${n.url||''}\n`;
-      if(n.category==3&&n.isRelatedToFireDept&&n.aiReason)out+=`   ⚑ ${n.aiReason}\n`;
-    });
+    data.forEach((n,i)=>{out+=`\n${i+1}. ${n.title}\n   來源：${n.source||''}　${n.time||''}\n   ${n.url||''}\n`;});
     out+=`\n${'─'.repeat(28)}\n共 ${data.length} 則`;
   }
   document.getElementById('fmt-box').textContent=out;
