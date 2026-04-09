@@ -87,7 +87,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .news-title { font-size: 14px; font-weight: 500; line-height: 1.5; flex: 1; }
 .news-title a { color: var(--text); text-decoration: none; }
 .news-title a:hover { color: var(--info); }
-.news-meta { display: flex; flex-wrap: wrap; gap: 6px; font-size: 11px; margin-bottom: 5px; align-items: center; }
+.news-meta { display: flex; flex-wrap: wrap; gap: 6px; font-size: 11px; margin-bottom: 8px; align-items: center; }
 .tag { padding: 2px 7px; border-radius: 999px; font-size: 11px; }
 .tag-src { background: var(--bg2); color: var(--text2); }
 .tag-cat1 { background: var(--danger-bg); color: var(--danger); }
@@ -96,8 +96,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .tag-official { background: var(--warn-bg); color: var(--warn); font-weight: 500; }
 .tag-related { background: var(--danger-bg); color: var(--danger); font-weight: 500; }
 .tag-time { color: var(--text3); }
-.news-snippet { font-size: 12px; color: var(--text2); line-height: 1.6; }
-.related-note { font-size: 11px; color: var(--danger); margin-top: 4px; font-style: italic; }
+.news-snippet { font-size: 12px; color: var(--text2); line-height: 1.6; margin-bottom: 8px; }
+.news-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.news-url { font-size: 11px; color: var(--info); word-break: break-all; flex: 1; }
+.btn-copy-news { padding: 4px 12px; border: 0.5px solid var(--border2); border-radius: var(--radius); font-size: 11px; cursor: pointer; background: var(--bg2); color: var(--text2); white-space: nowrap; transition: all 0.15s; flex-shrink: 0; }
+.btn-copy-news:hover { background: var(--info-bg); color: var(--info); border-color: var(--info); }
+.btn-copy-news.copied { background: var(--success-bg); color: var(--success); border-color: transparent; }
 .fmt-section { margin-top: 1rem; }
 .fmt-label { font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 6px; }
 .fmt-box { background: var(--bg2); border-radius: var(--radius); padding: 1rem; font-size: 13px; color: var(--text); white-space: pre-wrap; line-height: 1.9; max-height: 450px; overflow-y: auto; font-family: monospace; border: 0.5px solid var(--border); }
@@ -175,6 +179,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
         <button class="time-btn" onclick="setTime(this,6)">6 小時內</button>
         <button class="time-btn" onclick="setTime(this,24)">24 小時內</button>
       </div>
+
+      <!-- 類別一：新竹市消防局 -->
       <div class="cat-block">
         <div class="cat-header"><div class="cat-dot" style="background:#e24b4a"></div><span class="cat-name">新竹市消防局</span><span class="cat-desc">消防局直接相關</span></div>
         <div class="chips-row">
@@ -185,21 +191,29 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
           <span class="chip c1" data-kw="新竹消防隊" data-cat="1" onclick="toggleChip(this)">新竹消防隊</span>
         </div>
       </div>
+
+      <!-- 類別二：消防/災害新聞（國內外） -->
       <div class="cat-block">
-        <div class="cat-header"><div class="cat-dot" style="background:#ba7517"></div><span class="cat-name">消防 / 災害新聞</span><span class="cat-desc">Groq AI 直接搜尋</span></div>
+        <div class="cat-header"><div class="cat-dot" style="background:#ba7517"></div><span class="cat-name">消防 / 災害新聞</span><span class="cat-desc">國內外・Groq AI 搜尋</span></div>
         <div class="chips-row">
-          <span class="chip c2 on" data-kw="新竹市火災" data-cat="2" onclick="toggleChip(this)">新竹市火災</span>
-          <span class="chip c2 on" data-kw="新竹市火警" data-cat="2" onclick="toggleChip(this)">新竹市火警</span>
-          <span class="chip c2 on" data-kw="新竹市爆炸" data-cat="2" onclick="toggleChip(this)">新竹市爆炸</span>
-          <span class="chip c2 on" data-kw="新竹市救援" data-cat="2" onclick="toggleChip(this)">新竹市救援</span>
-          <span class="chip c2" data-kw="新竹市地震" data-cat="2" onclick="toggleChip(this)">新竹市地震</span>
-          <span class="chip c2" data-kw="新竹市風災" data-cat="2" onclick="toggleChip(this)">新竹市風災</span>
-          <span class="chip c2" data-kw="新竹市颱風" data-cat="2" onclick="toggleChip(this)">新竹市颱風</span>
-          <span class="chip c2" data-kw="新竹市淹水" data-cat="2" onclick="toggleChip(this)">新竹市淹水</span>
-          <span class="chip c2" data-kw="新竹市119" data-cat="2" onclick="toggleChip(this)">新竹市119</span>
-          <span class="chip c2" data-kw="新竹市化學災害" data-cat="2" onclick="toggleChip(this)">新竹市化學災害</span>
+          <span class="chip c2 on" data-kw="火災" data-cat="2" onclick="toggleChip(this)">火災</span>
+          <span class="chip c2 on" data-kw="火警" data-cat="2" onclick="toggleChip(this)">火警</span>
+          <span class="chip c2 on" data-kw="爆炸" data-cat="2" onclick="toggleChip(this)">爆炸</span>
+          <span class="chip c2 on" data-kw="消防救援" data-cat="2" onclick="toggleChip(this)">消防救援</span>
+          <span class="chip c2" data-kw="地震" data-cat="2" onclick="toggleChip(this)">地震</span>
+          <span class="chip c2" data-kw="颱風" data-cat="2" onclick="toggleChip(this)">颱風</span>
+          <span class="chip c2" data-kw="風災" data-cat="2" onclick="toggleChip(this)">風災</span>
+          <span class="chip c2" data-kw="洪水淹水" data-cat="2" onclick="toggleChip(this)">洪水淹水</span>
+          <span class="chip c2" data-kw="化學災害" data-cat="2" onclick="toggleChip(this)">化學災害</span>
+          <span class="chip c2" data-kw="119緊急救護" data-cat="2" onclick="toggleChip(this)">119緊急救護</span>
+          <span class="chip c2" data-kw="山難搜救" data-cat="2" onclick="toggleChip(this)">山難搜救</span>
+          <span class="chip c2" data-kw="重大火災國外" data-cat="2" onclick="toggleChip(this)">國外重大火災</span>
+          <span class="chip c2" data-kw="重大地震國外" data-cat="2" onclick="toggleChip(this)">國外重大地震</span>
+          <span class="chip c2" data-kw="重大颱風颶風" data-cat="2" onclick="toggleChip(this)">颱風颶風</span>
         </div>
       </div>
+
+      <!-- 類別三：新竹市廣泛 -->
       <div class="cat-block">
         <div class="cat-header"><div class="cat-dot" style="background:#185fa5"></div><span class="cat-name">新竹市（廣泛）</span><span class="cat-desc">Groq AI 篩選消防局相關</span></div>
         <div class="chips-row">
@@ -208,6 +222,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
           <span class="chip c3" data-kw="竹市" data-cat="3" onclick="toggleChip(this)">竹市</span>
         </div>
       </div>
+
       <div class="inp-row">
         <input class="inp" id="custom-kw" placeholder="自訂關鍵字（選填）" />
         <button class="btn-main" id="btn-search" onclick="doSearch()">搜尋新聞</button>
@@ -330,7 +345,7 @@ async function groqChat(messages,maxTokens){
   const resp=await fetch(GROQ_URL,{
     method:'POST',
     headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
-    body:JSON.stringify({model:GROQ_MODEL,messages,max_tokens:maxTokens||1000,temperature:0.1})
+    body:JSON.stringify({model:GROQ_MODEL,messages,max_tokens:maxTokens||1500,temperature:0.1})
   });
   if(!resp.ok){const e=await resp.json().catch(()=>({}));throw new Error(e.error?.message||'HTTP '+resp.status);}
   const data=await resp.json();
@@ -346,11 +361,10 @@ async function runTest(){
     if(!resp.ok){const e=await resp.json().catch(()=>({}));throw new Error(e.error?.message||'HTTP '+resp.status);}
     const d=await resp.json();
     const reply=(d.choices?.[0]?.message?.content||'').trim();
-    showTB(true,`✓ Groq AI 連線正常（Llama 3.3 70B，回應：${reply}）\n✓ 可以開始搜尋新聞`);
+    showTB(true,`✓ Groq AI 連線正常（回應：${reply}）\n✓ 可以開始搜尋新聞`);
     if(v.startsWith('gsk_')){apiKey=v;localStorage.setItem('hcfd_groq_key',v);setApiStatus(true);}
   }catch(e){showTB(false,'✗ Groq 連線失敗：'+e.message+'\n→ 請確認 API Key 正確（應以 gsk_ 開頭）');}
 }
-
 function showTB(ok,msg){
   const el=document.getElementById('test-box');
   el.style.display='block';
@@ -393,10 +407,30 @@ function parseNews(raw){
   }catch{return[];}
 }
 
-function getTodayRange(){
-  const now=new Date();
-  const cutoff=new Date(now.getTime()-curTime*3600000);
-  return `${cutoff.getFullYear()}年${cutoff.getMonth()+1}月${cutoff.getDate()}日${cutoff.getHours()}時 至今（${new Date().toLocaleString('zh-TW',{hour12:false})}）`;
+// 產生短網址（使用 tinyurl API）
+async function shorten(url){
+  if(!url)return'';
+  try{
+    const r=await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`,{signal:AbortSignal.timeout(4000)});
+    if(r.ok){const t=await r.text();if(t.startsWith('http'))return t.trim();}
+  }catch{}
+  return url; // 失敗就回傳原始網址
+}
+
+async function copyNewsItem(btn,title,source,url){
+  btn.textContent='處理中...';
+  btn.disabled=true;
+  const shortUrl=await shorten(url);
+  const text=`${title}(${source})\n${shortUrl}`;
+  try{
+    await navigator.clipboard.writeText(text);
+    btn.textContent='✓ 已複製';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='一鍵複製';btn.classList.remove('copied');btn.disabled=false;},2000);
+  }catch{
+    btn.textContent='一鍵複製';
+    btn.disabled=false;
+  }
 }
 
 async function doSearch(){
@@ -405,26 +439,28 @@ async function doSearch(){
   if(!allKws.length){showErr('請至少選擇一個關鍵字');return;}
   if(!apiKey){showErr('請先設定 Groq API Key');return;}
   hideErr();
-  setLoading(true,'Groq AI 正在搜尋新竹市消防局相關新聞...');
+  setLoading(true,'Groq AI 正在搜尋相關新聞...');
   document.getElementById('results-wrap').style.display='none';
   document.getElementById('empty').style.display='none';
 
   const timeLabel={1:'1小時',3:'3小時',6:'6小時',24:'24小時'}[curTime];
-  const timeRange=getTodayRange();
+  const now=new Date();
+  const timeRange=now.toLocaleString('zh-TW',{hour12:false});
 
-  const prompt=`你是新竹市消防局的新聞監測助理。請根據你的知識，列出過去${timeLabel}內（${timeRange}）台灣媒體報導的以下相關新聞。
+  const prompt=`你是新竹市消防局的新聞監測助理，現在時間是 ${timeRange}。請根據你的知識，列出過去${timeLabel}內台灣及國際媒體報導的相關新聞。
 
-搜尋類別與關鍵字：
+搜尋類別：
 類別1（新竹市消防局直接相關）：${cats[1].join('、')||'無'}
-類別2（消防/災害新聞）：${cats[2].join('、')||'無'}
-類別3（新竹市廣泛新聞，需判斷與消防局關聯）：${cats[3].join('、')||'無'}
+類別2（消防/災害新聞，包含台灣及國際重大災害）：${cats[2].join('、')||'無'}
+類別3（新竹市廣泛新聞，請判斷是否與消防局業務有關）：${cats[3].join('、')||'無'}
 
-對於類別3，請判斷每則是否與消防局業務有關（火災、救援、119、災害、消防安全等）。
-
-請盡量列出所有你知道的相關新聞。若無相關新聞則回傳空陣列。
+注意：
+- 類別2 請同時包含台灣國內及國際重大消防災害新聞
+- 類別3 僅列出與消防局相關的新聞（火災、救援、119、災害、消防安全等）
+- 請提供真實存在的新聞，若不確定網址可留空
 
 只回傳JSON陣列，不加任何說明或markdown：
-[{"title":"新聞標題","url":"新聞連結（若不確定填空字串）","source":"媒體來源（如 聯合新聞網、自由時報、ETtoday、中央社、三立、TVBS 等）","time":"發布時間（如 3小時前、今日14:30）","snippet":"新聞摘要50字以內","category":1或2或3,"isRelatedToFireDept":true或false,"isOfficial":false}]`;
+[{"title":"新聞標題","url":"新聞連結（不確定則填空字串）","source":"媒體來源","time":"發布時間","snippet":"摘要50字以內","category":1或2或3,"isRelatedToFireDept":true或false,"isOfficial":false}]`;
 
   try{
     const raw=await groqChat([{role:'user',content:prompt}],1500);
@@ -446,8 +482,9 @@ async function doOfficialSearch(){
   document.getElementById('empty').style.display='none';
   const extra=document.getElementById('official-extra').value.trim();
   const timeLabel={1:'1小時',3:'3小時',6:'6小時',24:'24小時'}[curTime];
+  const now=new Date();
 
-  const prompt=`請列出過去${timeLabel}內，新竹市消防局官方發出的新聞稿${extra?'（關鍵字含：'+extra+'）':''}。包含官網發布、政府新聞稿、媒體引用官方聲明等。
+  const prompt=`現在時間是 ${now.toLocaleString('zh-TW',{hour12:false})}。請列出過去${timeLabel}內，新竹市消防局官方發出的新聞稿${extra?'（關鍵字含：'+extra+'）':''}。包含官網發布、政府新聞稿、媒體引用官方聲明等。
 
 只回傳JSON陣列，不加說明：
 [{"title":"標題","url":"連結或空字串","source":"來源","time":"時間","snippet":"摘要50字","category":1,"isRelatedToFireDept":true,"isOfficial":true}]
@@ -483,9 +520,17 @@ function renderNews(items,filter){
     const isRel=n.category==3&&n.isRelatedToFireDept;
     const card=document.createElement('div');
     card.className='news-card'+(isRel?' related':'');
-    const urlHtml=n.url?`<a href="${n.url}" target="_blank" rel="noopener">${n.title}</a>`:n.title;
+    const titleHtml=n.url?`<a href="${n.url}" target="_blank" rel="noopener">${n.title}</a>`:n.title;
+    const urlDisplay=n.url?`<span class="news-url">${n.url}</span>`:'';
+
+    // 一鍵複製按鈕
+    const copyBtn=document.createElement('button');
+    copyBtn.className='btn-copy-news';
+    copyBtn.textContent='一鍵複製';
+    copyBtn.onclick=()=>copyNewsItem(copyBtn,n.title,n.source||'媒體',n.url||'');
+
     card.innerHTML=`
-      <div class="news-title-row"><span class="news-num">${num++}</span><div class="news-title">${urlHtml}</div></div>
+      <div class="news-title-row"><span class="news-num">${num++}</span><div class="news-title">${titleHtml}</div></div>
       <div class="news-meta">
         <span class="tag ${catTagClass[n.category]}">${catLabel[n.category]}</span>
         <span class="tag tag-src">${n.source||''}</span>
@@ -494,7 +539,10 @@ function renderNews(items,filter){
         <span class="tag-time">${n.time||''}</span>
       </div>
       ${n.snippet?`<div class="news-snippet">${n.snippet}</div>`:''}
+      <div class="news-footer">${urlDisplay}</div>
     `;
+    // 把複製按鈕加進 footer
+    card.querySelector('.news-footer').appendChild(copyBtn);
     list.appendChild(card);
   });
   document.getElementById('results-wrap').style.display='block';
