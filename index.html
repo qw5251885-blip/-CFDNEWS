@@ -1,34 +1,1569 @@
-<div class="api-section">
-  <label class="api-toggle" for="provider">
-    <span>AI 服務設定</span>
-  </label>
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新竹市消防局 新聞監測</title>
+    <style>
+    *, * ::before, * ::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
-  <div class="api-body">
-    <h3>免費 AI 提供商</h3>
+    :root {
+        --bg: #ffffff;
+        --bg2: #f5f5f4;
+        --bg3: #ebebea;
+        --text: #1a1a1a;
+        --text2: #6b6b68;
+        --text3: #9a9a97;
+        --border: rgba(0, 0, 0, 0.12);
+        --border2: rgba(0, 0, 0, 0.22);
+        --danger-bg: #fcebeb;
+        --danger: #a32d2d;
+        --warn-bg: #faeeda;
+        --warn: #854f0b;
+        --info-bg: #e6f1fb;
+        --info: #185fa5;
+        --success-bg: #eaf3de;
+        --success: #3b6d11;
+        --radius: 8px;
+        --radius-lg: 12px;
+    }
 
-    <div class="api-row">
-      <select id="provider" class="api-inp">
-        <option value="openrouter">OpenRouter（免費模型）</option>
-        <option value="groq">Groq（免費額度）</option>
-        <option value="gemini">Google Gemini（AI Studio）</option>
-      </select>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: var(--bg3);
+        color: var(--text);
+        min-height: 100vh;
+    }
+
+    .page {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 1.5rem 1rem 3rem;
+    }
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--info-bg);
+        color: var(--info);
+        font-size: 11px;
+        font-weight: 500;
+        padding: 3px 12px;
+        border-radius: 999px;
+        margin-bottom: 1rem;
+        border: 0.5px solid rgba(24, 95, 165, 0.2);
+    }
+
+    .card {
+        background: var(--bg);
+        border-radius: var(--radius-lg);
+        border: 0.5px solid var(--border);
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .api-section {
+        margin-bottom: 1rem;
+    }
+
+    .api-toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        font-size: 13px;
+        color: var(--text2);
+        user-select: none;
+    }
+
+    .api-body {
+        margin-top: 10px;
+        padding: 12px 14px;
+        background: var(--info-bg);
+        border-radius: var(--radius);
+        border: 0.5px solid rgba(24, 95, 165, 0.2);
+    }
+
+    .api-body h3 {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--info);
+        margin-bottom: 8px;
+    }
+
+    .api-row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 8px;
+        flex-wrap: wrap;
+    }
+
+    .api-inp {
+        flex: 1;
+        min-width: 160px;
+        padding: 8px 12px;
+        border: 0.5px solid var(--border2);
+        border-radius: var(--radius);
+        font-size: 13px;
+        background: var(--bg);
+        color: var(--text);
+        font-family: monospace;
+    }
+
+    .api-inp:focus {
+        outline: none;
+        border-color: var(--info);
+    }
+
+    .btn-save {
+        padding: 8px 14px;
+        background: var(--info);
+        color: #fff;
+        border: none;
+        border-radius: var(--radius);
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .btn-save:hover {
+        background: #0c447c;
+    }
+
+    .btn-test {
+        padding: 8px 14px;
+        background: var(--bg);
+        color: var(--info);
+        border: 0.5px solid var(--info);
+        border-radius: var(--radius);
+        font-size: 13px;
+        cursor: pointer;
+    }
+
+    .btn-test:hover {
+        background: var(--info-bg);
+    }
+
+    .api-hint {
+        font-size: 11px;
+        color: var(--text3);
+        margin-top: 8px;
+        line-height: 1.8;
+    }
+
+    .api-hint a {
+        color: var(--info);
+    }
+
+    .test-box {
+        margin-top: 8px;
+        padding: 8px 10px;
+        border-radius: var(--radius);
+        font-size: 12px;
+        display: none;
+        white-space: pre-line;
+        line-height: 1.6;
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 1.25rem;
+    }
+
+    .live-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #e24b4a;
+        animation: pulse 1.5s infinite;
+        flex-shrink: 0;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            opacity:1
+        }
+
+        50% {
+            opacity: 0.3
+        }
+    }
+
+    .header-title {
+        font-size: 17px;
+        font-weight: 500;
+    }
+
+    .tabs {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 1.25rem;
+        flex-wrap: wrap;
+    }
+
+    .tab {
+        padding: 7px 18px;
+        border: 0.5px solid var(--border2);
+        border-radius: var(--radius);
+        font-size: 13px;
+        cursor: pointer;
+        background: var(--bg);
+        color: var(--text2);
+        transition: all 0.15s;
+    }
+
+    .tab.active {
+        background: #e24b4a;
+        color: #fff;
+        border-color: transparent;
+        font-weight: 500;
+    }
+
+    .tab:hover:not(.active) {
+        background: var(--bg2);
+    }
+
+    .time-row {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .time-btn {
+        padding: 5px 14px;
+        border: 0.5px solid var(--border2);
+        border-radius: 999px;
+        font-size: 12px;
+        cursor: pointer;
+        background: var(--bg);
+        color: var(--text2);
+        transition: all 0.15s;
+    }
+
+    .time-btn.active {
+        background: var(--info);
+        color: #e6f1fb;
+        border-color: transparent;
+    }
+
+    .time-btn:hover:not(.active) {
+        background: var(--bg2);
+    }
+
+    .cat-block {
+        border: 0.5px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 10px 12px;
+        margin-bottom: 10px;
+    }
+
+    .cat-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+
+    .cat-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .cat-name {
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .cat-desc {
+        font-size: 11px;
+        color: var(--text3);
+        margin-left: auto;
+    }
+
+    .chips-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .chip {
+        padding: 4px 10px;
+        border: 0.5px solid var(--border);
+        border-radius: 999px;
+        font-size: 12px;
+        color: var(--text2);
+        background: var(--bg2);
+        cursor: pointer;
+        transition: all 0.15s;
+        user-select: none;
+    }
+
+    .chip.on {
+        border-color: transparent;
+        font-weight: 500;
+    }
+
+    .chip.c1.on {
+        background: var(--danger-bg);
+        color: var(--danger);
+    }
+
+    .chip.c2.on {
+        background: var(--warn-bg);
+        color: var(--warn);
+    }
+
+    .chip.c3.on {
+        background: var(--info-bg);
+        color: var(--info);
+    }
+
+    .inp-row {
+        display: flex;
+        gap: 8px;
+        margin-top: 0.75rem;
+    }
+
+    .inp {
+        flex: 1;
+        padding: 9px 13px;
+        border: 0.5px solid var(--border2);
+        border-radius: var(--radius-lg);
+        font-size: 13px;
+        background: var(--bg);
+        color: var(--text);
+    }
+
+    .inp:focus {
+        outline: none;
+        border-color: var(--info);
+    }
+
+    .btn-main {
+        padding: 9px 22px;
+        background: var(--info);
+        color: #e6f1fb;
+        border: none;
+        border-radius: var(--radius-lg);
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    .btn-main:hover {
+        background: #0c447c;
+    }
+
+    .btn-main:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .divider {
+        border: none;
+        border-top: 0.5px solid var(--border);
+        margin: 1rem 0;
+    }
+
+    .err {
+        background: var(--danger-bg);
+        color: var(--danger);
+        padding: 10px 13px;
+        border-radius: var(--radius);
+        font-size: 13px;
+        margin-bottom: 10px;
+        white-space: pre-line;
+        line-height: 1.6;
+    }
+
+    .loading {
+        text-align: center;
+        padding: 2rem;
+        color: var(--text2);
+        font-size: 14px;
+        display: none;
+    }
+
+    .loading-step {
+        font-size: 12px;
+        color: var(--text3);
+        margin-top: 6px;
+    }
+
+    .spinner {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        border: 2px solid var(--border);
+        border-top-color: var(--info);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .empty {
+        text-align: center;
+        padding: 2rem;
+        color: var(--text3);
+        font-size: 13px;
+    }
+
+    .status-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.75rem;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .count-label {
+        font-size: 12px;
+        color: var(--text2);
+    }
+
+    .btn-sm {
+        padding: 6px 13px;
+        border: 0.5px solid var(--border2);
+        border-radius: var(--radius);
+        font-size: 12px;
+        cursor: pointer;
+        background: var(--bg);
+        color: var(--text);
+    }
+
+    .btn-sm:hover {
+        background: var(--bg2);
+    }
+
+    .filter-row {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-bottom: 0.75rem;
+    }
+
+    .filter-btn {
+        padding: 4px 10px;
+        border: 0.5px solid var(--border);
+        border-radius: 999px;
+        font-size: 11px;
+        cursor: pointer;
+        background: var(--bg);
+        color: var(--text2);
+        transition: all 0.15s;
+    }
+
+    .filter-btn.active {
+        background: var(--bg2);
+        color: var(--text);
+        border-color: var(--border2);
+        font-weight: 500;
+    }
+
+    .news-card {
+        border: 0.5px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 12px 14px;
+        margin-bottom: 8px;
+        background: var(--bg);
+    }
+
+    .news-card.related {
+        border-left: 3px solid #e24b4a;
+    }
+
+    .news-num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--info);
+        color: #e6f1fb;
+        font-size: 11px;
+        font-weight: 500;
+        margin-right: 8px;
+        flex-shrink: 0;
+    }
+
+    .news-title-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 4px;
+        margin-bottom: 6px;
+    }
+
+    .news-title {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5;
+        flex: 1;
+    }
+
+    .news-title a {
+        color: var(--text);
+        text-decoration: none;
+    }
+
+    .news-title a:hover {
+        color: var(--info);
+    }
+
+    .news-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        font-size: 11px;
+        margin-bottom: 5px;
+        align-items: center;
+    }
+
+    .tag {
+        padding: 2px 7px;
+        border-radius: 999px;
+        font-size: 11px;
+    }
+
+    .tag-src {
+        background: var(--bg2);
+        color: var(--text2);
+    }
+
+    .tag-cat1 {
+        background: var(--danger-bg);
+        color: var(--danger);
+    }
+
+    .tag-cat2 {
+        background: var(--warn-bg);
+        color: var(--warn);
+    }
+
+    .tag-cat3 {
+        background: var(--info-bg);
+        color: var(--info);
+    }
+
+    .tag-official {
+        background: var(--warn-bg);
+        color: var(--warn);
+        font-weight: 500;
+    }
+
+    .tag-related {
+        background: var(--danger-bg);
+        color: var(--danger);
+        font-weight: 500;
+    }
+
+    .tag-time {
+        color: var(--text3);
+    }
+
+    .news-snippet {
+        font-size: 12px;
+        color: var(--text2);
+        line-height: 1.6;
+    }
+
+    .related-note {
+        font-size: 11px;
+        color: var(--danger);
+        margin-top: 4px;
+        font-style: italic;
+    }
+
+    .fmt-section {
+        margin-top: 1rem;
+    }
+
+    .fmt-label {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text2);
+        margin-bottom: 6px;
+    }
+
+    .fmt-box {
+        background: var(--bg2);
+        border-radius: var(--radius);
+        padding: 1rem;
+        font-size: 13px;
+        color: var(--text);
+        white-space: pre-wrap;
+        line-height: 1.9;
+        max-height: 450px;
+        overflow-y: auto;
+        font-family: monospace;
+        border: 0.5px solid var(--border);
+    }
+
+    .copy-row {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 6px;
+        gap: 6px;
+    }
+
+    .modal-bg {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 500;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+
+    .modal-bg.open {
+        display: flex;
+    }
+
+    .modal-box {
+        background: var(--bg);
+        border-radius: var(--radius-lg);
+        border: 0.5px solid var(--border2);
+        padding: 1.5rem;
+        width: 100%;
+        max-width: 360px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .modal-title {
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+    }
+
+    .modal-sub {
+        font-size: 12px;
+        color: var(--text3);
+        margin-bottom: 1rem;
+    }
+
+    .event-wrap {
+        background: var(--bg2);
+        border-radius: var(--radius);
+        padding: 10px 12px;
+        margin-bottom: 1rem;
+    }
+
+    .event-label {
+        font-size: 11px;
+        color: var(--text2);
+        margin-bottom: 5px;
+    }
+
+    .event-inp {
+        width: 100%;
+        padding: 7px 10px;
+        border: 0.5px solid var(--border2);
+        border-radius: var(--radius);
+        font-size: 13px;
+        background: var(--bg);
+        color: var(--text);
+    }
+
+    .event-inp:focus {
+        outline: none;
+        border-color: var(--info);
+    }
+
+    .sentiment-row {
+        display: flex;
+        gap: 6px;
+        margin-top: 6px;
+    }
+
+    .sent-btn {
+        flex: 1;
+        padding: 6px 4px;
+        border: 0.5px solid var(--border);
+        border-radius: var(--radius);
+        font-size: 12px;
+        cursor: pointer;
+        background: var(--bg);
+        color: var(--text2);
+        text-align: center;
+        transition: all 0.15s;
+    }
+
+    .sent-btn.active.pos {
+        background: var(--success-bg);
+        color: var(--success);
+        border-color: transparent;
+        font-weight: 500;
+    }
+
+    .sent-btn.active.neu {
+        background: var(--bg2);
+        color: var(--text);
+        border-color: var(--border2);
+        font-weight: 500;
+    }
+
+    .sent-btn.active.neg {
+        background: var(--danger-bg);
+        color: var(--danger);
+        border-color: transparent;
+        font-weight: 500;
+    }
+
+    .layout-title {
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    .modal-opt {
+        padding: 10px 13px;
+        border: 0.5px solid var(--border);
+        border-radius: var(--radius);
+        margin-bottom: 7px;
+        cursor: pointer;
+        transition: all 0.15s;
+    }
+
+    .modal-opt:hover {
+        background: var(--bg2);
+    }
+
+    .modal-opt.sel {
+        border-color: var(--info);
+        background: var(--info-bg);
+    }
+
+    .modal-opt-title {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text);
+        margin-bottom: 3px;
+    }
+
+    .modal-opt.sel .modal-opt-title {
+        color: var(--info);
+    }
+
+    .modal-opt-preview {
+        font-size: 11px;
+        color: var(--text3);
+        font-family: monospace;
+        line-height: 1.5;
+    }
+
+    .modal-opt.sel .modal-opt-preview {
+        color: var(--info);
+        opacity: 0.75;
+    }
+
+    .modal-footer {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-top: 1rem;
+    }
+
+    .notice {
+        font-size: 12px;
+        color: var(--warn);
+        background: var(--warn-bg);
+        padding: 8px 12px;
+        border-radius: var(--radius);
+        margin-bottom: 1rem;
+    }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="badge">✦ Gemini 2.0 Flash・免費方案</div>
+        <div class="card">
+
+            <div class="api-section">
+                <div class="api-toggle" onclick="toggleApi()">
+                    <span id="api-icon">▶</span>
+                    &nbsp;AI API 設定
+                            
+                    <span id="api-status-inline" style="margin-left:auto;font-size:11px;"></span>
+                </div>
+                <div class="api-body" id="api-body" style="display:none">
+                    <h3>免費 AI 提供商</h3>
+                    <div class="api-row">
+                        <select class="api-inp" id="provider">
+                            <option value="gemini">Google Gemini（AI Studio）</option>
+                            <option value="openrouter">OpenRouter（免費模型）</option>
+                            <option value="groq">Groq（免費額度）</option>
+                        </select>
+                        <input class="api-inp" id="api-inp" type="password" placeholder="輸入 API Key"/>
+                    </div>
+                    <div class="api-row">
+                        <input class="api-inp" id="model-inp" type="text" placeholder="模型名稱"/>
+                    </div>
+                    <div class="api-row">
+                        <input class="api-inp" id="url-inp" type="text" placeholder="API URL" readonly/>
+                    </div>
+                    <div class="api-row">
+                        <button class="btn-save" onclick="saveKey()">儲存</button>
+                        <button class="btn-test" onclick="runTest()">測試連線</button>
+                    </div>
+                    <div id="test-box" class="test-box"></div>
+                    <div id="api-msg" style="font-size:12px;margin-top:4px;"></div>
+                    <div class="api-hint" id="api-hint"></div>
+                </div>
+            </div>
+
+            <div class="divider" style="margin:0.75rem 0 1rem;"></div>
+
+            <div class="header">
+                <div class="live-dot"></div>
+                <span class="header-title">新竹市消防局 新聞即時監測</span>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('general',this)">一般搜尋</button>
+                <button class="tab" onclick="switchTab('official',this)">消防局新聞稿</button>
+            </div>
+
+            <div id="pane-general">
+                <div class="time-row">
+                    <button class="time-btn active" onclick="setTime(this,1)">1 小時內</button>
+                    <button class="time-btn" onclick="setTime(this,3)">3 小時內</button>
+                    <button class="time-btn" onclick="setTime(this,6)">6 小時內</button>
+                    <button class="time-btn" onclick="setTime(this,24)">24 小時內</button>
+                </div>
+                <div class="cat-block">
+                    <div class="cat-header">
+                        <div class="cat-dot" style="background:#e24b4a"></div>
+                        <span class="cat-name">新竹市消防局</span>
+                        <span class="cat-desc">消防局直接相關</span>
+                    </div>
+                    <div class="chips-row">
+                        <span class="chip c1 on" data-kw="新竹市消防局" data-cat="1" onclick="toggleChip(this)">新竹市消防局</span>
+                        <span class="chip c1 on" data-kw="新竹市消防" data-cat="1" onclick="toggleChip(this)">新竹市消防</span>
+                        <span class="chip c1 on" data-kw="新竹消防局" data-cat="1" onclick="toggleChip(this)">新竹消防局</span>
+                        <span class="chip c1" data-kw="竹市消防" data-cat="1" onclick="toggleChip(this)">竹市消防</span>
+                        <span class="chip c1" data-kw="新竹消防隊" data-cat="1" onclick="toggleChip(this)">新竹消防隊</span>
+                    </div>
+                </div>
+                <div class="cat-block">
+                    <div class="cat-header">
+                        <div class="cat-dot" style="background:#ba7517"></div>
+                        <span class="cat-name">消防 / 災害新聞</span>
+                        <span class="cat-desc">Gemini AI 判斷關聯性</span>
+                    </div>
+                    <div class="chips-row">
+                        <span class="chip c2 on" data-kw="新竹市火災" data-cat="2" onclick="toggleChip(this)">新竹市火災</span>
+                        <span class="chip c2 on" data-kw="新竹市火警" data-cat="2" onclick="toggleChip(this)">新竹市火警</span>
+                        <span class="chip c2 on" data-kw="新竹市爆炸" data-cat="2" onclick="toggleChip(this)">新竹市爆炸</span>
+                        <span class="chip c2 on" data-kw="新竹市救援" data-cat="2" onclick="toggleChip(this)">新竹市救援</span>
+                        <span class="chip c2" data-kw="新竹市地震" data-cat="2" onclick="toggleChip(this)">新竹市地震</span>
+                        <span class="chip c2" data-kw="新竹市風災" data-cat="2" onclick="toggleChip(this)">新竹市風災</span>
+                        <span class="chip c2" data-kw="新竹市颱風" data-cat="2" onclick="toggleChip(this)">新竹市颱風</span>
+                        <span class="chip c2" data-kw="新竹市淹水" data-cat="2" onclick="toggleChip(this)">新竹市淹水</span>
+                        <span class="chip c2" data-kw="新竹市119" data-cat="2" onclick="toggleChip(this)">新竹市119</span>
+                        <span class="chip c2" data-kw="新竹市化學災害" data-cat="2" onclick="toggleChip(this)">新竹市化學災害</span>
+                    </div>
+                </div>
+                <div class="cat-block">
+                    <div class="cat-header">
+                        <div class="cat-dot" style="background:#185fa5"></div>
+                        <span class="cat-name">新竹市（廣泛）</span>
+                        <span class="cat-desc">Gemini AI 篩選消防局相關</span>
+                    </div>
+                    <div class="chips-row">
+                        <span class="chip c3 on" data-kw="新竹市" data-cat="3" onclick="toggleChip(this)">新竹市</span>
+                        <span class="chip c3" data-kw="新竹市政府" data-cat="3" onclick="toggleChip(this)">新竹市政府</span>
+                        <span class="chip c3" data-kw="竹市" data-cat="3" onclick="toggleChip(this)">竹市</span>
+                    </div>
+                </div>
+                <div class="inp-row">
+                    <input class="inp" id="custom-kw" placeholder="自訂關鍵字（選填）"/>
+                    <button class="btn-main" id="btn-search" onclick="doSearch()">搜尋新聞</button>
+                </div>
+            </div>
+
+            <div id="pane-official" style="display:none">
+                <div class="notice">專門搜尋新竹市消防局官方發出的新聞稿</div>
+                <div class="time-row">
+                    <button class="time-btn active" onclick="setTime(this,1)">1 小時內</button>
+                    <button class="time-btn" onclick="setTime(this,3)">3 小時內</button>
+                    <button class="time-btn" onclick="setTime(this,6)">6 小時內</button>
+                    <button class="time-btn" onclick="setTime(this,24)">24 小時內</button>
+                </div>
+                <div class="inp-row" style="margin-top:0.5rem;">
+                    <input class="inp" id="official-extra" placeholder="額外關鍵字（選填）"/>
+                    <button class="btn-main" id="btn-official" onclick="doOfficialSearch()">搜尋新聞稿</button>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            <div id="err-box" class="err" style="display:none"></div>
+            <div class="loading" id="loading">
+                <span class="spinner"></span>
+                正在搜尋新聞...
+                <div class="loading-step" id="loading-step"></div>
+            </div>
+
+            <div id="results-wrap" style="display:none">
+                <div class="status-bar">
+                    <span class="count-label" id="count-label"></span>
+                    <div style="display:flex;gap:6px;">
+                        <button class="btn-sm" onclick="openModal()">一鍵排版</button>
+                        <button class="btn-sm" onclick="clearAll()">清除</button>
+                    </div>
+                </div>
+                <div class="filter-row" id="filter-row" style="display:none">
+                    <button class="filter-btn active" data-f="all" onclick="filterNews(this)">全部</button>
+                    <button class="filter-btn" data-f="1" onclick="filterNews(this)" style="color:#a32d2d">● 消防局</button>
+                    <button class="filter-btn" data-f="2" onclick="filterNews(this)" style="color:#854f0b">● 災害新聞</button>
+                    <button class="filter-btn" data-f="3" onclick="filterNews(this)" style="color:#185fa5">● 新竹市（相關）</button>
+                    <button class="filter-btn" data-f="related" onclick="filterNews(this)" style="color:#a32d2d">⚑ 與消防局相關</button>
+                </div>
+                <div id="news-list"></div>
+                <div class="fmt-section" id="fmt-wrap" style="display:none">
+                    <div class="fmt-label">排版輸出</div>
+                    <div class="fmt-box" id="fmt-box"></div>
+                    <div class="copy-row">
+                        <button class="btn-sm" onclick="copyFmt()">複製全部</button>
+                        <button class="btn-sm" onclick="document.getElementById('fmt-wrap').style.display='none'">隱藏</button>
+                    </div>
+                </div>
+            </div>
+            <div id="empty" class="empty" style="display:none">未找到相關新聞，請嘗試擴大時間範圍</div>
+        </div>
     </div>
 
-    <div class="api-row">
-      <input id="apiKey" class="api-inp" type="password" placeholder="輸入 API Key">
-      <input id="modelName" class="api-inp" type="text" placeholder="模型名稱">
+    <div class="modal-bg" id="modal">
+        <div class="modal-box">
+            <div class="modal-title">一鍵排版</div>
+            <div class="modal-sub">選擇格式並填寫事件說明</div>
+            <div class="event-wrap">
+                <div class="event-label">事件說明（報告局長後面那段話）</div>
+                <input class="event-inp" id="event-desc" placeholder="例：新竹天公壇捐贈440萬元救災裝備 守護市民安全"/>
+                <div class="event-label" style="margin-top:10px;">輿情性質</div>
+                <div class="sentiment-row">
+                    <button class="sent-btn pos active" data-s="正面" onclick="setSent(this)">正面輿情</button>
+                    <button class="sent-btn neu" data-s="中性" onclick="setSent(this)">中性輿情</button>
+                    <button class="sent-btn neg" data-s="負面" onclick="setSent(this)">負面輿情</button>
+                </div>
+            </div>
+            <div class="layout-title">格式</div>
+            <div class="modal-opt sel" data-t="official" onclick="selLayout(this)">
+                <div class="modal-opt-title">局長報告格式</div>
+                <div class="modal-opt-preview">
+                    報告局長:
+                    <br>
+                    新竹市消防局於今(X日)...
+                    <br>
+                    共計N則:
+                    <br>
+                    1.標題(來源)
+                    <br>
+                    https://...
+                </div>
+            </div>
+            <div class="modal-opt" data-t="brief" onclick="selLayout(this)">
+                <div class="modal-opt-title">簡訊快報</div>
+                <div class="modal-opt-preview">
+                    ⚡ 消防新聞快報 HH:MM
+                    <br>
+                    1. 標題（來源）
+                </div>
+            </div>
+            <div class="modal-opt" data-t="numbered" onclick="selLayout(this)">
+                <div class="modal-opt-title">編號列表</div>
+                <div class="modal-opt-preview">
+                    【新竹市消防局 新聞監測】
+                    <br>
+                    1. 標題　來源　時間
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-sm" onclick="closeModal()">取消</button>
+                <button class="btn-main" style="padding:8px 20px;" onclick="applyLayout()">套用</button>
+            </div>
+        </div>
     </div>
 
-    <div class="api-row">
-      <input id="apiUrl" class="api-inp" type="text" placeholder="API URL" readonly>
-    </div>
+    <script>
+    let curTime = 1,
+        curTab = 'general',
+        curLayout = 'official',
+        curSentiment = '正面';
+    let newsData = [],
+        curFilter = 'all',
+        apiKey = '',
+        apiProvider = 'gemini',
+        apiModel = 'gemini-2.0-flash',
+        apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
-    <div class="api-row">
-      <button class="btn-save" id="saveApiBtn">儲存設定</button>
-      <button class="btn-test" id="testApiBtn">測試連線</button>
-    </div>
+    const PROVIDERS = {
+        gemini: {
+            name: 'Google Gemini（AI Studio）',
+            url: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
+            model: 'gemini-2.0-flash',
+            hint: '取得方式：前往 aistudio.google.com/app/apikey → 用 Google 帳號登入 → Get API Key → Create API Key。需先在 AI Studio 設定帳單才能解鎖免費額度（不會收費）。Key 僅儲存在你的瀏覽器本機。',
+            link: 'https://aistudio.google.com/app/apikey'
+        },
+        openrouter: {
+            name: 'OpenRouter（免費模型）',
+            url: 'https://openrouter.ai/api/v1/chat/completions',
+            model: 'deepseek/deepseek-chat-v3-0324:free',
+            hint: '提供多個免費模型，適合先用免費版快速上線。',
+            link: 'https://openrouter.ai/'
+        },
+        groq: {
+            name: 'Groq（免費額度）',
+            url: 'https://api.groq.com/openai/v1/chat/completions',
+            model: 'llama-3.3-70b-versatile',
+            hint: '速度很快，適合新聞摘要、分類、標題生成。',
+            link: 'https://console.groq.com/'
+        }
+    };
 
-    <div class="api-hint" id="apiHint"></div>
-    <div class="test-box" id="testBox"></div>
-  </div>
-</div>
+    const PROXIES = [
+    u => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`,
+    u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+    u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const s = localStorage.getItem('hcfd_ai_provider') || 'gemini';
+        const k = localStorage.getItem('hcfd_gemini_key') || '';
+        apiProvider = s;
+        apiKey = k;
+        document.getElementById('provider').value = s;
+        document.getElementById('api-inp').value = k;
+        updateProviderUI();
+        if (k) {
+            setApiStatus(true);
+        } else {
+            setApiStatus(false);
+            document.getElementById('api-body').style.display = 'block';
+            document.getElementById('api-icon').textContent = '▼';
+        }
+    });
+
+    function updateProviderUI() {
+        const p = PROVIDERS[apiProvider];
+        document.getElementById('api-hint').innerHTML = `${p.hint}<br>申請連結：<a href="${p.link}" target="_blank" rel="noopener noreferrer">${p.link}</a>`;
+        document.getElementById('url-inp').value = p.url;
+        document.getElementById('model-inp').value = p.model;
+        apiUrl = p.url;
+        apiModel = p.model;
+        setApiStatus(!!apiKey);
+    }
+    function toggleApi() {
+        const b = document.getElementById('api-body');
+        const open = b.style.display === 'none';
+        b.style.display = open ? 'block' : 'none';
+        document.getElementById('api-icon').textContent = open ? '▼' : '▶';
+    }
+    function setApiStatus(ok) {
+        const i = document.getElementById('api-status-inline');
+        const m = document.getElementById('api-msg');
+        if (ok) {
+            i.textContent = '✓ 已設定';
+            i.style.color = 'var(--success)';
+            m.textContent = '✓ Key 已儲存（僅存於本機）';
+            m.style.color = 'var(--success)';
+        }
+        else {
+            i.textContent = '⚠ 尚未設定';
+            i.style.color = 'var(--warn)';
+            if (m)
+                m.textContent = '';
+        }
+    }
+    function saveKey() {
+        apiProvider = document.getElementById('provider').value;
+        apiKey = document.getElementById('api-inp').value.trim();
+        apiModel = document.getElementById('model-inp').value.trim();
+        apiUrl = document.getElementById('url-inp').value.trim();
+        if (apiProvider === 'gemini' && !apiKey.startsWith('AIza')) {
+            alert('API Key 格式不正確，應以 AIza 開頭');
+            return;
+        }
+        localStorage.setItem('hcfd_ai_provider', apiProvider);
+        localStorage.setItem('hcfd_gemini_key', apiKey);
+        setApiStatus(!!apiKey);
+    }
+    async function runTest() {
+        apiProvider = document.getElementById('provider').value;
+        apiKey = document.getElementById('api-inp').value.trim();
+        apiModel = document.getElementById('model-inp').value.trim();
+        apiUrl = document.getElementById('url-inp').value.trim();
+        if (!apiKey) {
+            showTB(null, '請先輸入 API Key');
+            return;
+        }
+        showTB(null, '測試中，請稍候...');
+        try {
+            let r;
+            if (apiProvider === 'gemini') {
+                r = await fetch(`${apiUrl}?key=${encodeURIComponent(apiKey)}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: '請回答「OK」兩個字'
+                            }]
+                        }],
+                        generationConfig: {
+                            maxOutputTokens: 10
+                        }
+                    })
+                });
+            } else {
+                r = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`,
+                        ...(apiProvider === 'openrouter' ? {
+                            'HTTP-Referer': location.origin,
+                            'X-Title': '新竹市消防局 新聞監測'
+                        } : {})
+                    },
+                    body: JSON.stringify({
+                        model: apiModel,
+                        messages: [{
+                            role: 'user',
+                            content: '請回答「OK」兩個字'
+                        }],
+                        temperature: 0.2,
+                        max_tokens: 10
+                    })
+                });
+            }
+            if (!r.ok) {
+                const e = await r.json().catch(() => ({}));
+                throw new Error(e.error?.message || 'HTTP ' + r.status);
+            }
+            const d = await r.json();
+            const reply = apiProvider === 'gemini' ? (d.candidates?.[0]?.content?.parts?.[0]?.text || '').trim() : (d.choices?.[0]?.message?.content || '').trim();
+            const rssUrl = 'https://news.google.com/rss/search?q=%E6%96%B0%E7%AB%B9%E5%B8%82%E6%B6%88%E9%98%B2%E5%B1%80&hl=zh-TW&gl=TW&ceid=TW:zh-Hant';
+            let proxyOk = false,
+                proxyNum = -1;
+            for (let i = 0; i < PROXIES.length; i++) {
+                try {
+                    const pr = await fetch(PROXIES[i](rssUrl), {
+                        signal: AbortSignal.timeout(7000)
+                    });
+                    if (pr.ok) {
+                        const pd = await pr.json();
+                        const xml = pd.contents || (typeof pd === 'string' ? pd : null);
+                        if (xml && xml.includes('<item>')) {
+                            proxyOk = true;
+                            proxyNum = i + 1;
+                            break;
+                        }
+                    }
+                } catch {}
+            }
+            if (proxyOk) {
+                showTB(true, `✓ ${PROVIDERS[apiProvider].name} 正常（回應：${reply || 'OK'}）\n✓ 新聞抓取正常（Proxy ${proxyNum} 可用）`);
+                apiKey = document.getElementById('api-inp').value.trim();
+                localStorage.setItem('hcfd_ai_provider', apiProvider);
+                localStorage.setItem('hcfd_gemini_key', apiKey);
+                setApiStatus(true);
+            } else {
+                showTB(false, `✓ AI 正常\n✗ 新聞 RSS 抓取失敗：所有 Proxy 皆無法連線\n→ 請確認網路是否限制外部連線，或稍後再試`);
+            }
+        } catch (e) {
+            showTB(false, '✗ 連線失敗：' + e.message + '\n→ 請確認 API Key / 模型名稱 / 權限是否正確');
+        }
+    }
+    function showTB(ok, msg) {
+        const el = document.getElementById('test-box');
+        el.style.display = 'block';
+        el.className = 'test-box ' + (ok === true ? 'ok' : ok === false ? 'fail' : 'pending');
+        el.textContent = msg;
+    }
+    function switchTab(tab, el) {
+        curTab = tab;
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        document.getElementById('pane-general').style.display = tab === 'general' ? '' : 'none';
+        document.getElementById('pane-official').style.display = tab === 'official' ? '' : 'none';
+        clearAll();
+    }
+    function setTime(btn, h) {
+        curTime = h;
+        btn.closest('.time-row').querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+    function toggleChip(el) {
+        el.classList.toggle('on');
+    }
+    function setSent(btn) {
+        document.querySelectorAll('.sent-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        curSentiment = btn.dataset.s;
+    }
+    function getCats() {
+        const r = {
+            1: [],
+            2: [],
+            3: []
+        };
+        document.querySelectorAll('.chip.on[data-cat]').forEach(c => r[c.dataset.cat].push(c.dataset.kw));
+        const cu = document.getElementById('custom-kw').value.trim();
+        if (cu)
+            r[1].push(cu);
+        return r;
+    }
+    function setLoading(v, step) {
+        document.getElementById('loading').style.display = v ? 'block' : 'none';
+        document.getElementById('loading-step').textContent = step || '';
+        ['btn-search', 'btn-official'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el)
+                el.disabled = v;
+        });
+    }
+    function showErr(msg) {
+        const el = document.getElementById('err-box');
+        el.textContent = msg;
+        el.style.display = 'block';
+    }
+    function hideErr() {
+        document.getElementById('err-box').style.display = 'none';
+    }
+    async function fetchRssXml(rssUrl) {
+        for (let i = 0; i < PROXIES.length; i++) {
+            try {
+                const resp = await fetch(PROXIES[i](rssUrl), {
+                    signal: AbortSignal.timeout(8000)
+                });
+                if (!resp.ok)
+                    continue;
+                const data = await resp.json();
+                const xml = data.contents || (typeof data === 'string' ? data : null);
+                if (xml && xml.includes('<item>'))
+                    return xml;
+            } catch (e) {
+                console.warn('Proxy' + i + ' fail:', e.message);
+            }
+        }
+        return null;
+    }
+    async function fetchRss(kw, cat, isOfficial) {
+        const q = encodeURIComponent(kw);
+        const xml = await fetchRssXml(`https://news.google.com/rss/search?q=${q}&hl=zh-TW&gl=TW&ceid=TW:zh-Hant`);
+        if (!xml)
+            return [];
+        const doc = new DOMParser().parseFromString(xml, 'text/xml');
+        const cutoff = new Date(Date.now() - curTime * 3600000);
+        const items = [];
+        doc.querySelectorAll('item').forEach(item => {
+            const rawTitle = item.querySelector('title')?.textContent || '';
+            const title = rawTitle.replace(/\s*-\s*[^-\u4e00-\u9fff]{1,30}$/, '').trim();
+            const url = item.querySelector('link')?.textContent || '';
+            const pubDate = item.querySelector('pubDate')?.textContent || '';
+            const source = item.querySelector('source')?.textContent||rawTitle.match(/-\s*([^-]+)$/)?.[1]?.trim() || '媒體';
+            const desc = (item.querySelector('description')?.textContent || '').replace(/<[^>]+>/g, '').trim().slice(0, 100);
+            const pd = pubDate ? new Date(pubDate) : null;
+            if (pd && pd < cutoff)
+                return;
+            if (!title || title.length < 4)
+                return;
+            const diff = pd ? (Date.now() - pd.getTime()) / 60000 : null;
+            const timeStr = diff === null ? '' : diff < 60 ? `${Math.round(diff)}分鐘前` : diff < 1440 ? `${Math.round(diff / 60)}小時前` : `${Math.round(diff / 1440)}天前`;
+            items.push({
+                title,
+                url,
+                source: source.slice(0, 20),
+                time: timeStr,
+                pubDateObj: pd,
+                snippet: desc,
+                category: cat,
+                isRelatedToFireDept: cat !== 3,
+                isOfficial: isOfficial || false,
+                aiJudged: false,
+                aiReason: ''
+            });
+        });
+        return items;
+    }
+    function dedup(items) {
+        const seen = new Set();
+        return items.filter(n => {
+            const k = n.title.replace(/\s/g, '').slice(0, 14);
+            if (seen.has(k))
+                return false;
+            seen.add(k);
+            return true;
+        });
+    }
+    async function geminiJudge(articles) {
+        if (!apiKey || !articles.length || apiProvider !== 'gemini')
+            return articles;
+        const list = articles.map((a, i) => `${i + 1}. ${a.title} ${a.snippet || ''}`).join('\n');
+        const prompt = `以下是搜尋「新竹市」關鍵字的新聞列表，請逐一判斷每則是否與新竹市消防局業務有關。\n消防局業務：火災、火警、爆炸、救援、119、化學災害、地震、風災、颱風、淹水、消防設備、消防安全、防火、救護、搜救。\n新聞：\n${list}\n只回傳JSON陣列，不加任何說明：\n[{"index":1,"related":true,"reason":"一句話原因"}]`;
+        try {
+            const resp = await fetch(`${apiUrl}?key=${encodeURIComponent(apiKey)}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: prompt
+                        }]
+                    }],
+                    generationConfig: {
+                        temperature: 0.1
+                    }
+                })
+            });
+            if (!resp.ok)
+                return articles;
+            const data = await resp.json();
+            const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+            const clean = raw.replace(/```json|```/g, '').trim();
+            const s = clean.indexOf('['),
+                e = clean.lastIndexOf(']');
+            if (s === -1)
+                return articles;
+            const results = JSON.parse(clean.slice(s, e + 1));
+            results.forEach(r => {
+                const a = articles[r.index - 1];
+                if (a) {
+                    a.isRelatedToFireDept = !!r.related;
+                    a.aiReason = r.reason || '';
+                    a.aiJudged = true;
+                }
+            });
+        } catch (e) {
+            console.warn('Gemini judge failed', e);
+        }
+        return articles;
+    }
+    async function doSearch() {
+        const cats = getCats();
+        if (![...cats[1], ...cats[2], ...cats[3]].length) {
+            showErr('請至少選擇一個關鍵字');
+            return;
+        }
+        hideErr();
+        setLoading(true, '步驟 1/2：從 Google 新聞抓取資料...');
+        document.getElementById('results-wrap').style.display = 'none';
+        document.getElementById('empty').style.display = 'none';
+        try {
+            const promises = [];
+            cats[1].forEach(kw => promises.push(fetchRss(kw, 1, false)));
+            cats[2].forEach(kw => promises.push(fetchRss(kw, 2, false)));
+            cats[3].forEach(kw => promises.push(fetchRss(kw, 3, false)));
+            const settled = await Promise.allSettled(promises);
+            let items = [];
+            settled.forEach(r => {
+                if (r.status === 'fulfilled')
+                    items = items.concat(r.value);
+            });
+            if (!items.length) {
+                showErr('無法抓取到新聞。\n請開啟「API Key 設定」→ 按「測試連線」查看原因。\n可能是：\n1) 網路限制外部連線（公務網路）\n2) 目前無相關新聞\n3) Proxy 服務暫時不可用，請稍後再試');
+                setLoading(false);
+                return;
+            }
+            items = dedup(items);
+            items.sort((a, b) => (b.pubDateObj || 0) - (a.pubDateObj || 0));
+            const cat3 = items.filter(n => n.category == 3);
+            if (cat3.length && apiKey && apiProvider === 'gemini') {
+                setLoading(true, `步驟 2/2：Gemini AI 正在判斷 ${cat3.length} 則新竹市新聞的相關性...`);
+                const judged = await geminiJudge([...cat3]);
+                judged.forEach(j => {
+                    const o = items.find(n => n.title === j.title && n.category == 3);
+                    if (o) {
+                        o.isRelatedToFireDept = j.isRelatedToFireDept;
+                        o.aiReason = j.aiReason;
+                        o.aiJudged = j.aiJudged;
+                    }
+                });
+            }
+            newsData = items;
+            renderNews(newsData);
+        } catch (e) {
+            showErr('搜尋失敗：' + e.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+    async function doOfficialSearch() {
+        hideErr();
+        setLoading(true, '搜尋新竹市消防局新聞稿...');
+        document.getElementById('results-wrap').style.display = 'none';
+        document.getElementById('empty').style.display = 'none';
+        const extra = document.getElementById('official-extra').value.trim();
+        try {
+            const items = await fetchRss('新竹市消防局 新聞稿' + (extra ? ' ' + extra : ''), 1, true);
+            if (!items.length) {
+                showErr('無法抓取新聞，請按「測試連線」確認狀態。');
+                setLoading(false);
+                return;
+            }
+            newsData = items;
+            renderNews(newsData);
+        } catch (e) {
+            showErr('搜尋失敗：' + e.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+    const catLabel = {
+        1: '消防局',
+        2: '災害新聞',
+        3: '新竹市'
+    };
+    const catTagClass = {
+        1: 'tag-cat1',
+        2: 'tag-cat2',
+        3: 'tag-cat3'
+    };
+    function renderNews(items, filter) {
+        const list = document.getElementById('news-list');
+        list.innerHTML = '';
+        const f = filter || curFilter;
+        let shown = items;
+        if (f === 'related')
+            shown = items.filter(n => n.isRelatedToFireDept || n.category == 1);
+        else if (f !== 'all')
+            shown = items.filter(n => String(n.category) === String(f));
+        if (!items.length) {
+            document.getElementById('empty').style.display = 'block';
+            return;
+        }
+        const tl = {
+            1: '1小時',
+            3: '3小時',
+            6: '6小時',
+            24: '24小時'
+        }[curTime];
+        document.getElementById('count-label').textContent = `共 ${shown.length} 則（總計 ${items.length} 則）· ${tl}內`;
+        document.getElementById('filter-row').style.display = 'flex';
+        let num = 1;
+        shown.forEach(n => {
+            const isRel = n.category == 3 && n.isRelatedToFireDept;
+            const card = document.createElement('div');
+            card.className = 'news-card' + (isRel ? ' related' : '');
+            card.innerHTML = `<div class="news-title-row"><span class="news-num">${num++}</span><div class="news-title"><a href="${n.url || '#'}" target="_blank" rel="noopener">${n.title}</a></div></div><div class="news-meta"><span class="tag ${catTagClass[n.category]}">${catLabel[n.category]}</span><span class="tag tag-src">${n.source}</span>${n.isOfficial ? '<span class="tag tag-official">官方</span>' : ''}${isRel ? '<span class="tag tag-related">與消防局相關</span>' : ''}<span class="tag-time">${n.time}</span></div>${n.snippet ? `<div class="news-snippet">${n.snippet}</div>` : ''}${isRel && n.aiJudged && n.aiReason ? `<div class="related-note">⚑ Gemini：${n.aiReason}</div>` : ''}`;
+            list.appendChild(card);
+        });
+        document.getElementById('results-wrap').style.display = 'block';
+        document.getElementById('fmt-wrap').style.display = 'none';
+    }
+    function filterNews(btn) {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        curFilter = btn.dataset.f;
+        renderNews(newsData, curFilter);
+    }
+    function openModal() {
+        document.getElementById('modal').classList.add('open');
+    }
+    function closeModal() {
+        document.getElementById('modal').classList.remove('open');
+    }
+    function selLayout(el) {
+        document.querySelectorAll('.modal-opt').forEach(o => o.classList.remove('sel'));
+        el.classList.add('sel');
+        curLayout = el.dataset.t;
+    }
+    function getDisplayData() {
+        if (curFilter === 'all')
+            return newsData;
+        if (curFilter === 'related')
+            return newsData.filter(n => n.isRelatedToFireDept || n.category == 1);
+        return newsData.filter(n => String(n.category) === curFilter);
+    }
+    function applyLayout() {
+        closeModal();
+        if (!newsData.length)
+            return;
+        const data = getDisplayData();
+        const now = new Date();
+        const day = now.getDate();
+        const timeStr = now.toLocaleString('zh-TW', {
+            hour12: false
+        });
+        const tl = {
+            1: '1小時',
+            3: '3小時',
+            6: '6小時',
+            24: '24小時'
+        }[curTime];
+        const eventDesc = document.getElementById('event-desc').value.trim() || '（請填入事件說明）';
+        let out = '';
+        if (curLayout === 'official') {
+            out = `報告局長:\n新竹市消防局於今(${day}日)${eventDesc}，經媒體露出報導${curSentiment}輿情，網路即時共計${data.length}則:\n`;
+            data.forEach((n, i) => {
+                out += `${i + 1}.${n.title}(${n.source})\n${n.url || ''}\n`;
+            });
+        } else if (curLayout === 'brief') {
+            const t = now.toLocaleTimeString('zh-TW', {
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            out = `⚡ 消防新聞快報 ${t}（${tl}內）\n\n`;
+            data.forEach((n, i) => {
+                out += `${i + 1}. ${n.title}（${n.source}）\n`;
+            });
+            out += `\n共 ${data.length} 則`;
+        } else {
+            out = `【新竹市消防局 新聞監測】\n時間：${timeStr}（${tl}內）\n${'─'.repeat(28)}\n`;
+            data.forEach((n, i) => {
+                out += `\n${i + 1}. ${n.title}\n   來源：${n.source}　${n.time}\n   ${n.url || ''}\n`;
+                if (n.category == 3 && n.isRelatedToFireDept && n.aiReason)
+                    out += `   ⚑ ${n.aiReason}\n`;
+            });
+            out += `\n${'─'.repeat(28)}\n共 ${data.length} 則`;
+        }
+        document.getElementById('fmt-box').textContent = out;
+        document.getElementById('fmt-wrap').style.display = 'block';
+        document.getElementById('fmt-box').scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest'
+        });
+    }
+    function copyFmt() {
+        const btn = event.target;
+        navigator.clipboard.writeText(document.getElementById('fmt-box').textContent).then(() => {
+            btn.textContent = '✓ 已複製！';
+            setTimeout(() => btn.textContent = '複製全部', 1800);
+        });
+    }
+    function clearAll() {
+        newsData = [];
+        curFilter = 'all';
+        ['results-wrap', 'empty', 'fmt-wrap'].forEach(id => document.getElementById(id).style.display = 'none');
+        hideErr();
+    }
+    </script>
+</body>
+</html>
